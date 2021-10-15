@@ -23,8 +23,8 @@ def get_db():
 
 #---------/election-------------
 @app.post("/election", response_model=schemas.Election)
-def post_election(election: schemas.Election ,db: Session = Depends(get_db)):
-    return crud.get_election(db, election=election)
+def post_election(election: schemas.ElectionCreate ,db: Session = Depends(get_db)):
+    return crud.create_election(db, election=election)
 #-------------------------------
 
 

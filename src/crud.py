@@ -7,7 +7,7 @@ def get_election(db: Session, election_id: int):
                 .filter(models.Election.id == election_id) \
                 .first()
 
-def create_election(db: Session, election: schemas.Election):
+def create_election(db: Session, election: schemas.ElectionCreate):
     db_election = models.Election(
         name=election.name,
         from_date=election.from_date,
@@ -16,6 +16,6 @@ def create_election(db: Session, election: schemas.Election):
         choices=election.choices
     )
     db.add(db_election)
-    db.commit
+    db.commit()
     db.refresh(db_election)
     return db_election

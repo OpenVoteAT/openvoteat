@@ -3,16 +3,18 @@ from pydantic import BaseModel
 from typing import List
 
 
-
-
-class Election(BaseModel):
-
-    id: int
+class ElectionBase(BaseModel):
     name: str
     from_date: datetime
     to_date: datetime
     num_of_votes: int
     choices: dict
+
+class ElectionCreate(ElectionBase):
+    pass
+
+class Election(ElectionBase):
+    id: int
 
     class Config:
         orm_mode = True
