@@ -44,6 +44,8 @@ def post_code(db: Session = Depends(get_db)):
     return crud.create_code(db)
 #-------------------------------
 
-#-------------/validate-------------
-
+#-------------/vote-------------
+@app.post("/vote", response_model=schemas.Vote)
+def post_vote(vote: schemas.VoteCreate ,db: Session = Depends(get_db)):
+    return crud.create_vote(db,vote=vote)
 #-------------------------------

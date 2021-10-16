@@ -1,3 +1,4 @@
+from random import choice
 from sqlalchemy.orm import Session
 
 import models, schemas, utils
@@ -40,21 +41,12 @@ def create_code(db: Session):
     db.refresh(db_code)
     return db_code
 
-def validate_code(db: Session):
-    #generate unique hash
-    found_unused_hash = False
-    while not found_unused_hash:
-        hash = utils.generate_ranodm_Hash()
-        #check if hash already exists
-        q = db.query(models.Code) \
-              .filter(models.Code.code == hash)
-        found_unused_hash = db.query(q.exists())
-
-    #store Code model into database
-    db_code = models.Code(
-        code=hash
+def create_vote(db: Session, vote: schemas.VoteCreate):
+    db_vote = models.Vote(
+        choice=vote.choice,
+        election_id=vote.election_id
     )
-    db.add(db_code)
+    db.add(db_vote)
     db.commit()
-    db.refresh(db_code)
-    return db_code
+    db.refresh(db_vote)
+    return db_vote
