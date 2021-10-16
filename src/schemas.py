@@ -19,7 +19,7 @@ class Code(CodeBase):
 
 
 class VoteBase(BaseModel):
-    choice: int
+    choice: dict
     election_id: int
 
 class VoteCreate(VoteBase):

@@ -14,7 +14,7 @@ class Election(Base):
     from_date           = Column(DateTime)
     to_date             = Column(DateTime)
     num_of_votes        = Column(Integer, default=True)
-    choices             = Column(JSON, default=True)
+    choices             = Column(JSON)
 
     votes               = relationship("Vote")
     codes               = relationship("Code")
@@ -33,7 +33,7 @@ class Vote(Base):
     __tablename__ = "vote"
 
     id                  = Column(Integer, primary_key=True, index=True)
-    choice              = Column(Integer)
+    choice              = Column(JSON)
     election_id         = Column(Integer, ForeignKey('election.id'))
 
     election            = relationship("Election", back_populates="votes")
