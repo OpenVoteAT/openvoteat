@@ -26,7 +26,7 @@ class Code(Base):
     code                = Column(String, unique=True)
     election_id         = Column(Integer, ForeignKey('election.id'))
 
-    election            = relationship("Election", back_populates="code")
+    election            = relationship("Election", back_populates="codes")
 
 
 class Vote(Base):

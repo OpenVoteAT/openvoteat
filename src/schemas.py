@@ -5,8 +5,8 @@ from typing import List
 class CodeBase(BaseModel):
     code: str
 
-class CodeCreate(CodeBase):
-    pass
+class CodeCreate(BaseModel):
+    election_id: int
 
 class Code(CodeBase):
     id: int

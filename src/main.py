@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
+from pydantic.schema import schema
 from sqlalchemy.orm import Session
 
 import crud, models, schemas
@@ -40,8 +41,8 @@ def get_election(election_id: int ,db: Session = Depends(get_db)):
 
 #-------------/code-------------
 @app.post("/code", response_model=schemas.Code)
-def post_code(election_id: int ,db: Session = Depends(get_db)):
-    return crud.create_code(db, election_id=election_id)
+def post_code(codeCreate: schemas.CodeCreate ,db: Session = Depends(get_db)):
+    return crud.create_code(db, codeCreate=codeCreate)
 #-------------------------------
 
 #-------------/vote-------------

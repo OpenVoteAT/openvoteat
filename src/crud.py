@@ -22,7 +22,7 @@ def create_election(db: Session, election: schemas.ElectionCreate):
     return db_election
 
 
-def create_code(db: Session, election_id: int):
+def create_code(db: Session, codeCreate: schemas.CodeCreate):
     #generate unique hash
     found_unused_hash = False
     while not found_unused_hash:
@@ -35,7 +35,7 @@ def create_code(db: Session, election_id: int):
     #store Code model into database
     db_code = models.Code(
         code=hash,
-        election_id=election_id
+        election_id=codeCreate.election_id
     )
     db.add(db_code)
     db.commit()
