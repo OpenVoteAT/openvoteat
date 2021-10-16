@@ -1,3 +1,4 @@
+from os import read
 from sqlalchemy import Column, Integer, String, DateTime, JSON
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
@@ -16,12 +17,16 @@ class Election(Base):
     choices             = Column(JSON, default=True)
 
     votes               = relationship("Vote")
+    codes               = relationship("Code")
 
 class Code(Base):
     __tablename__ = "code"
 
     id                  = Column(Integer, primary_key=True, index=True)
     code                = Column(String, unique=True)
+    election_id         = Column(Integer, ForeignKey('election.id'))
+
+    election            = relationship("Election", back_populates="code")
 
 
 class Vote(Base):

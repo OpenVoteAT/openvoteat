@@ -10,6 +10,7 @@ class CodeCreate(CodeBase):
 
 class Code(CodeBase):
     id: int
+    election_id: int
 
     class Config:
         orm_mode = True
@@ -45,7 +46,8 @@ class ElectionCreate(ElectionBase):
 
 class Election(ElectionBase):
     id: int
-    elections: List[Vote] = []
+    votes: List[Vote] = []
+    codes: List[Code] = []
 
     class Config:
         orm_mode = True

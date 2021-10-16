@@ -40,8 +40,8 @@ def get_election(election_id: int ,db: Session = Depends(get_db)):
 
 #-------------/code-------------
 @app.post("/code", response_model=schemas.Code)
-def post_code(db: Session = Depends(get_db)):
-    return crud.create_code(db)
+def post_code(election_id: int ,db: Session = Depends(get_db)):
+    return crud.create_code(db, election_id=election_id)
 #-------------------------------
 
 #-------------/vote-------------
