@@ -33,3 +33,17 @@ def post_election(election: schemas.ElectionCreate ,db: Session = Depends(get_db
 def get_election(election_id: int ,db: Session = Depends(get_db)):
     return crud.get_election(db, election_id=election_id)
 #-------------------------------
+
+
+#------------TEST---------------
+
+
+#-------------/code-------------
+@app.post("/code", response_model=schemas.Code)
+def post_code(db: Session = Depends(get_db)):
+    return crud.create_code(db)
+#-------------------------------
+
+#-------------/validate-------------
+
+#-------------------------------
