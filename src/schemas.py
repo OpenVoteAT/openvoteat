@@ -18,3 +18,15 @@ class Election(ElectionBase):
 
     class Config:
         orm_mode = True
+
+class CodeBase(BaseModel):
+    code: str
+
+class CodeCreate(CodeBase):
+    pass
+
+class Code(CodeBase):
+    id: int
+
+    class Config:
+        orm_mode = True
