@@ -25,13 +25,20 @@ def create_election(db: Session, election: schemas.ElectionCreate):
     db.refresh(db_election)
     return db_election
 
-#def patch_election(db: Session, election_id: int, election: schemas.ElectionCreate):
-#    db_election = db.query(models.Election).filter(models.Election.id == election_id).first()
-#    update_data = election.dict(exclude_unset=True)
-#    db.add(updated_election)
-#    db.commit()
-#    db.refresh(db_election)
-#    return db_election
+def patch_election(db: Session, election_id: int, election: schemas.ElectionCreate):
+    election_orm = db.query(models.Election).filter(models.Election.id == election_id)
+
+    election_orm.update(
+        values=election.dict()
+    )
+    election_orm = election_orm.first()
+
+    if election_orm is None:
+        return None
+
+    db.commit()
+    db.refresh(election_orm)
+    return election_orm
 
 
 def create_code(db: Session, codeCreate: schemas.CodeCreate):
