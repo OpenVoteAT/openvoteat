@@ -38,7 +38,7 @@ class ElectionBase(BaseModel):
     from_date: datetime
     to_date: datetime
     num_of_votes: int
-    choices: dict
+    choices: List[str]
 
 class ElectionCreate(ElectionBase):
     pass

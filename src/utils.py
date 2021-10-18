@@ -13,13 +13,13 @@ def generate_ranodm_hash():
     return out_str
 
 #check if choice is valid^
-# structure:
+# structure userChoice:
 #   {
 #       name: points,
 #       name: points
 #   }
-#   
+#   structure: electionChoice: [name,name]
 def is_valid_choice(electionChoice,userChoice):
-
+    
 
     return True
