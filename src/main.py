@@ -35,9 +35,9 @@ def post_election(election: schemas.ElectionCreate ,db: Session = Depends(get_db
 def get_election(election_id: int ,db: Session = Depends(get_db)):
     return crud.get_election(db, election_id=election_id)
 
-#@app.patch("/election/{election_id}", response_model=schemas.Election)
-#def patch_election(election_id: int ,election:schemas.ElectionCreate, db: Session = Depends(get_db)):
-#    return crud.patch_election(db, election_id=election_id, election=election)
+@app.patch("/election/{election_id}", response_model=schemas.Election)
+def patch_election(election_id: int ,election:schemas.ElectionCreate, db: Session = Depends(get_db)):
+    return crud.patch_election(db, election_id=election_id, election=election)
 #-------------------------------
 
 #-------------/vote-------------
