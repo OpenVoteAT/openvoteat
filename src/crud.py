@@ -38,7 +38,7 @@ def create_code(db: Session, codeCreate: schemas.CodeCreate):
     #generate unique hash
     found_unused_hash = False
     while not found_unused_hash:
-        hash = utils.generate_ranodm_Hash()
+        hash = utils.generate_ranodm_hash()
         #check if hash already exists
         found_unused_hash = db.query(models.Code) \
                               .filter(models.Code.code == hash) \
