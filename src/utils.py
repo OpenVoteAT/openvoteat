@@ -1,9 +1,10 @@
 import random
 import string
+from collections import Counter
 
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.functions import user
 
-import schemas
 
 # Generates a random hash with random length between 18 and 22
 def generate_ranodm_hash():
@@ -20,6 +21,16 @@ def generate_ranodm_hash():
 #   }
 #   structure: electionChoice: [name,name]
 def is_valid_choice(electionChoice,userChoice):
-    
+    #check if names of elctionChoice match with userChoice
+    if(Counter(electionChoice) != Counter(userChoice.keys())):
+        return False
+
+    #check if user used all numbers from 6 to 6-number of Choices
+    from_ = 6
+    to_ = 6-len(electionChoice)
+    if to_ <= 0:
+        to_ = 1
+    if(Counter(range(from_,to_,-1)) != Counter(userChoice.values())):
+        return False
 
     return True

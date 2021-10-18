@@ -73,34 +73,53 @@ def create_vote(db: Session, vote: schemas.VoteCreate):
 
 def add_vote(db: Session, code: schemas.CodeBase, vote: schemas.VoteCreate):
     # Captcha
+
     # get the hash
     hash_code = code.code
+
     # decode hash
         # TODO
-    # check the vote
-        # TODO
-    # check the hash
-    hash_db = db.query(models.Code).filter(models.Code.code == hash_code).first()
-    allowed = hash_db is not None
-    if not allowed:
+
+    #check if hash is valid
+    hash_query = db.query(models.Code).filter(models.Code.code == hash_code)
+    hash_orm = hash_query.first()
+    if not hash_orm is not None:
+        print("Hash invalid")
         return None
-    # check if the vote is allowed
-    # date
+
+    # load election
+    election_query = db.query(models.Election) \
+                    .filter(models.Election.id == hash_orm.election_id)
+    election_orm =  election_query.first()
+    
+    if election_orm is None:
+        print("Election not Found")
+        return None
+
+    # check if now is in the allowed timespan
     now = datetime.today()
-    election_db = db.query(models.Election) \
-                    .filter(models.Election.id == hash_db.election_id) \
-                    .filter(models.Election.from_date < now) \
-                    .filter(models.Election.to_date > now) \
-                    .first()
-    allowed = allowed and (election_db is not None)
+    allowed = election_orm.from_date < now and election_orm.to_date > now
     if not allowed:
+        print("Date invalid")
         return None
+
+    # check if the vote is valid
+    allowed = utils.is_valid_choice(electionChoice=election_orm.choices,userChoice=vote.choice)
+    if not allowed:
+        print("Vote invalid")
+        return None
+
     # create Vote
-    db_vote = models.Vote(
+    vote_orm = models.Vote(
         choice = vote.choice,
-        election_id = hash_db.election_id
+        election_id = hash_orm.election_id
     )
-    db.add(db_vote)
+    db.add(vote_orm)
     db.commit()
-    db.refresh(db_vote)
-    return db_vote
+    db.refresh(vote_orm)
+
+    #remove hash
+    hash_query.delete()
+    db.commit()
+
+    return vote_orm
